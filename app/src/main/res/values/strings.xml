@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FirstNameTest</string>
+
+    <string name="api_key_google_map">AIzaSyBTh9O0rJpuhgTpXQ2Sejuyxerpals-9Co</string>
+
+
 </resources>
