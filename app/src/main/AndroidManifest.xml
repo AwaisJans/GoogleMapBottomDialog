@@ -43,9 +43,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key_google_map" />
 
-
-
-
     </application>
 
 </manifest>

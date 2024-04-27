@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.jexample.sample.picture.firstnametest'
+    namespace 'com.jans.googlemap.bottomdialog.issue'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.jexample.sample.picture.firstnametest"
+        applicationId "com.jans.googlemap.bottomdialog.issue"
         minSdk 24
         targetSdk 33
         versionCode 1
