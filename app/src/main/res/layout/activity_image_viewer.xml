@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical"
+    tools:context=".activities.ImageViewer">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/tb"
+        android:layout_height="wrap_content"
+        android:minHeight="70dp">
+
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_gravity="start|center"
+            android:id="@+id/backBtn"
+            app:tint="@color/white"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:layout_height="40dp"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:textSize="25sp"
+            android:id="@+id/tvNumber"
+            android:textColor="@color/white"
+            android:layout_marginStart="30dp"
+            android:textStyle="bold"
+            android:layout_gravity="start|center"
+            android:layout_height="wrap_content"
+            android:text="1"/>
+
+
+    </LinearLayout>
+
+
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+
+</LinearLayout>

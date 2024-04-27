@@ -109,22 +109,13 @@
                     android:layout_height="wrap_content" />
 
 
-
-
-                <ImageView
-                    android:layout_width="50sp"
-                    android:layout_height="50sp"
-                    android:layout_gravity="center"
-                    android:src="@android:drawable/ic_lock_idle_alarm"
-                    app:tint="@color/black"/>
-
-
                 <TextView
                     android:layout_width="match_parent"
                     android:id="@+id/tv1"
-                    android:gravity="center"
-                    android:drawableTint="@color/black"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center|start"
                     android:textSize="20sp"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:text="TextView 1"
                     android:layout_height="wrap_content"/>
