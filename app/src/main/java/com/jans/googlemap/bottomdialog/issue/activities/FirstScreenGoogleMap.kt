@@ -70,6 +70,17 @@ class FirstScreenGoogleMap : AppCompatActivity() {
             }
         }
 
+
+
+        binding.btnWebViewScreen.setOnClickListener{
+                startActivity(Intent(this@FirstScreenGoogleMap, WebViewScreen::class.java))
+        }
+
+
+
+
+
+
     }
 
 
