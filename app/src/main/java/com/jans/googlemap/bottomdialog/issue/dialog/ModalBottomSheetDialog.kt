@@ -4,27 +4,33 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
+import com.android.volley.Request
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.flexbox.FlexboxLayout
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.R.id.design_bottom_sheet
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.jans.googlemap.bottomdialog.issue.R
+import com.google.gson.Gson
 import com.jans.googlemap.bottomdialog.issue.adapters.ImagesAdapter
 import com.jans.googlemap.bottomdialog.issue.databinding.BottomSheetBehaviorBinding
+import com.jans.googlemap.bottomdialog.issue.model.markerModels.ApiResponse
 import com.jans.googlemap.bottomdialog.issue.model.urlDetailsMarker.Bild
 import com.jans.googlemap.bottomdialog.issue.model.urlDetailsMarker.Kategorie
-import com.jans.googlemap.bottomdialog.issue.model.urlDetailsMarker.SingleApiService
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.jans.googlemap.bottomdialog.issue.model.urlDetailsMarker.SingleApiResponse
+import com.jans.googlemap.bottomdialog.issue.utils.ConfigApp
 
 
 class ModalBottomSheetDialog : BottomSheetDialogFragment() {
@@ -33,11 +39,7 @@ class ModalBottomSheetDialog : BottomSheetDialogFragment() {
 
     companion object {
         const val URL_DETAIL = "arg_text"
-        var baseUrl = ""
-        var endpoint = ""
         var urlString = ""
-        var questionMarkIndex = 0
-
 
         fun newInstance(text: String): ModalBottomSheetDialog {
             val args = Bundle().apply {
@@ -65,55 +67,61 @@ class ModalBottomSheetDialog : BottomSheetDialogFragment() {
         }
 
 
-        lifecycleScope.launch {
-            val singleItem = setupApiResponse().getData(urlString).singleItem
-            val kategoriesList = singleItem.kategorien
-            val title = singleItem.bezeichnung
-            val htmlCode = singleItem.beschreibung
-            val imagesList = singleItem.bilder
+        val queue = Volley.newRequestQueue(requireContext())
 
-            binding.tvTitle.text = title
-            binding.webView.loadData(htmlCode, "text/html", "UTF-8")
+        val url = urlString
 
-            binding.idLoader.visibility = View.GONE
-            binding.nestScroll.visibility = View.VISIBLE
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                try {
 
-            // setup kategories
-            setupKategories(kategoriesList)
+                    Log.d("url123", response.toString())
 
-            // setup ImagesList
-            setupImages(imagesList)
+                    val setupApiResponse: SingleApiResponse =
+                        Gson().fromJson(response.toString(), SingleApiResponse::class.java)
 
 
+                    val singleItem = setupApiResponse.singleItem
+                    val kategoriesList = singleItem.kategorien
+                    val title = singleItem.bezeichnung
+                    val htmlCode = singleItem.beschreibung
+                    val imagesList = singleItem.bilder
+                    binding.tv1.text = title
 
+                    binding.tvTitle.text = title
+                    binding.webView.loadData(htmlCode, "text/html", "UTF-8")
 
-            val textView = binding.tv1
+                    binding.idLoader.visibility = View.GONE
+                    binding.nestScroll.visibility = View.VISIBLE
 
-// Set the height of the TextView
-//            val desiredHeight = 50
-//            textView.layoutParams.height = desiredHeight
-//            textView.layoutParams.width = desiredHeight
-//
-//// Set the top drawable with the desired height
-//            val drawable = resources.getDrawable(android.R.drawable.ic_lock_idle_alarm)
-//            drawable.setBounds(0, 0, drawable.intrinsicWidth, desiredHeight)
-//            textView.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
+                    // setup kategories
+                    setupKategories(kategoriesList)
 
+                    // setup ImagesList
+                    setupImages(imagesList)
+                } catch (e: Exception) {
+                    Log.d("list123", e.message.toString())
+                }
+            },
+            { error: VolleyError? ->
+                Log.e("list123", "Volley Error: ${error?.message}")
+            }
+        )
 
-
-        }
+        queue.add(jsonObjectRequest)
 
         return binding.root
     }
 
 
-    private fun setupImages(imagesList:List<Bild>){
+    private fun setupImages(imagesList: List<Bild>) {
         binding.imagesRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), HORIZONTAL, false)
         binding.imagesRecyclerView.adapter = ImagesAdapter(imagesList)
     }
 
-    private fun setupKategories(kategoriesList:List<Kategorie>){
+    private fun setupKategories(kategoriesList: List<Kategorie>) {
         val containerKategories = binding.container
 
         val testItems = listOf(
@@ -138,23 +146,6 @@ class ModalBottomSheetDialog : BottomSheetDialogFragment() {
         }
 
 
-    }
-
-    private fun setupApiResponse():SingleApiService{
-        questionMarkIndex = urlString.indexOf("?")
-        if (questionMarkIndex != -1) {
-            baseUrl = urlString.substring(0, questionMarkIndex)
-            endpoint = urlString.substring(questionMarkIndex + 1)
-
-        }
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("$baseUrl/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-
-        return retrofit.create(SingleApiService::class.java)
     }
 
 

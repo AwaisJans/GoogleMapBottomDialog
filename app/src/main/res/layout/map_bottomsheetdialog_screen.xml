@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".activities.ItemsScreen">
+    tools:context=".activities.MapBottomSheetDialogScreen">
 
 
 
@@ -42,15 +42,12 @@
     </LinearLayout>
 
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapview"
-        android:layout_below="@id/tb"
+    <fragment
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:apiKey="@string/api_key_google_map"
-        android:clickable="true"
-        android:enabled="true" />
-
+        />
 
 
 </RelativeLayout>

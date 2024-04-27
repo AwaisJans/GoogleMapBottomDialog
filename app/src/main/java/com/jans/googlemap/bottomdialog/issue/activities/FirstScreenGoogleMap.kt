@@ -28,7 +28,7 @@ class FirstScreenGoogleMap : AppCompatActivity() {
 
         binding.btnMap.setOnClickListener {
             if (checkLocationPerm()) {
-                startActivity(Intent(this@FirstScreenGoogleMap, MapScreen::class.java))
+                startActivity(Intent(this@FirstScreenGoogleMap, MapBottomSheetBehaviorScreen::class.java))
             } else {
                 builder.setTitle("Permission Required")
                     .setMessage("Location Permission is Important for this App")
@@ -50,7 +50,7 @@ class FirstScreenGoogleMap : AppCompatActivity() {
 
         binding.btnItemsScreen.setOnClickListener{
             if (checkLocationPerm()) {
-                startActivity(Intent(this@FirstScreenGoogleMap, ItemsScreen::class.java))
+                startActivity(Intent(this@FirstScreenGoogleMap, MapBottomSheetDialogScreen::class.java))
             } else {
                 builder.setTitle("Permission Required")
                     .setMessage("Location Permission is Important for this App")

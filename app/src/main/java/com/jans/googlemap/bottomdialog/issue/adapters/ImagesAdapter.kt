@@ -1,5 +1,6 @@
 package com.jans.googlemap.bottomdialog.issue.adapters
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jans.googlemap.bottomdialog.issue.model.urlDetailsMarker.Bild
 import com.jans.googlemap.bottomdialog.issue.R
+import com.jans.googlemap.bottomdialog.issue.activities.ImageViewer
 
 class ImagesAdapter(private val imagesList: List<Bild>) :
             RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -18,7 +20,7 @@ class ImagesAdapter(private val imagesList: List<Bild>) :
                 val holder: RecyclerView.ViewHolder
 
                 val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.images_item, parent, false)
+                    .inflate(R.layout.images_item_dialog_lyt, parent, false)
                 holder = ImageViewHolder(view)
 
                 return holder
@@ -42,6 +44,16 @@ class ImagesAdapter(private val imagesList: List<Bild>) :
                     .load(url)
                     .placeholder(R.drawable.loading)
                     .into((holder.imageHolder))
+
+
+                holder.itemView.setOnClickListener{
+                    context.startActivity(Intent(context, ImageViewer::class.java)
+                        .putExtra("imageList", ArrayList(imagesList))
+                    )
+                }
+
+
+
 
 
             }
