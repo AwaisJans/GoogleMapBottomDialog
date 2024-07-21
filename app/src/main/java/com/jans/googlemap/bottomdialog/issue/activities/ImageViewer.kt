@@ -25,7 +25,6 @@ class ImageViewer : AppCompatActivity() {
     var mViewPager: ViewPager? = null
     var mViewPagerAdapter: ViewPagerAdapter? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_viewer)
@@ -42,7 +41,6 @@ class ImageViewer : AppCompatActivity() {
 
 
     private fun setUpVP(){
-
         val arraylist = intent.getSerializableExtra("imageList") as? ArrayList<*>
         val imageList = arraylist!!.filterIsInstance<Bild>()
         Log.d("list123", "$imageList")
@@ -69,12 +67,10 @@ class ImageViewer : AppCompatActivity() {
         })
     }
 
-
     class ViewPagerAdapter(
         var context: Context,
         var images: List<Bild>
-    ) :
-        PagerAdapter() {
+    ) : PagerAdapter() {
         var mLayoutInflater: LayoutInflater =
             context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
 

@@ -83,7 +83,6 @@ class WebViewScreen : AppCompatActivity() {
             super.onPageFinished(view, url)
             progressBar.visibility = View.GONE
             webView.visibility = View.VISIBLE
-
         }
     }
 

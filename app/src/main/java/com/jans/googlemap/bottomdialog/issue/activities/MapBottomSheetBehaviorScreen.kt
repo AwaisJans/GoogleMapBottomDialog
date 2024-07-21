@@ -131,10 +131,6 @@ class MapBottomSheetBehaviorScreen : AppCompatActivity(), OnMapReadyCallback {
 
                     val apiResponse: ApiResponse = Gson().fromJson(response.toString(), ApiResponse::class.java)
 
-
-                    Toast.makeText(this, "sample", Toast.LENGTH_SHORT).show()
-
-
                     apiResponse.items.forEach { item ->
                         val type = item.data.type
                         item.data.coords.forEach { coords ->

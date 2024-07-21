@@ -23,28 +23,13 @@ class FirstScreenGoogleMap : AppCompatActivity() {
         binding = ActivityFirstScreenGoogleMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this,R.style.CustomAlertDialogTheme)
 
 
         binding.btnMap.setOnClickListener {
             if (checkLocationPerm()) {
                 startActivity(Intent(this@FirstScreenGoogleMap, MapBottomSheetBehaviorScreen::class.java))
             } else {
-                builder.setTitle("Permission Required")
-                    .setMessage("Location Permission is Important for this App")
-                    .setPositiveButton("Allow") { dialog, _ ->
-                        ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(permission.ACCESS_FINE_LOCATION), 1
-                        )
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton("Deny") { dialog, _ ->
-                        Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show()
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
+               permissionDialog()
             }
         }
 
@@ -52,23 +37,21 @@ class FirstScreenGoogleMap : AppCompatActivity() {
             if (checkLocationPerm()) {
                 startActivity(Intent(this@FirstScreenGoogleMap, MapBottomSheetDialogScreen::class.java))
             } else {
-                builder.setTitle("Permission Required")
-                    .setMessage("Location Permission is Important for this App")
-                    .setPositiveButton("Allow") { dialog, _ ->
-                        ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(permission.ACCESS_FINE_LOCATION), 1
-                        )
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton("Deny") { dialog, _ ->
-                        Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show()
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
+                permissionDialog()
             }
         }
+
+
+
+        binding.btnCustomInfoWindowBtn.setOnClickListener{
+            if (checkLocationPerm()) {
+                startActivity(Intent(this@FirstScreenGoogleMap, CustomInfoWindowScreen::class.java))
+            } else {
+               permissionDialog()
+            }
+        }
+
+
 
 
 
@@ -81,6 +64,26 @@ class FirstScreenGoogleMap : AppCompatActivity() {
 
 
 
+    }
+
+    private fun permissionDialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this,R.style.CustomAlertDialogTheme)
+
+        builder.setTitle("Permission Required")
+            .setMessage("Location Permission is Important for this App")
+            .setPositiveButton("Allow") { dialog, _ ->
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(permission.ACCESS_FINE_LOCATION), 1
+                )
+                dialog.dismiss()
+            }
+            .setNegativeButton("Deny") { dialog, _ ->
+                Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
 
