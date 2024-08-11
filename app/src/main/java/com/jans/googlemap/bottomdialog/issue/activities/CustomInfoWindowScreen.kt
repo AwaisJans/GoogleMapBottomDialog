@@ -131,7 +131,7 @@ class CustomInfoWindowScreen : AppCompatActivity() {
                 Log.d("list123", "${urlDetailList[markerId]} $markerId")
 
                 // now show info window when item is loaded
-                setUpInfoWindow(bool1)
+                setUpInfoWindow(bool1,marker.position)
                 handler.postDelayed(this, 1000)
             }
         }
@@ -182,13 +182,19 @@ class CustomInfoWindowScreen : AppCompatActivity() {
         }
     }
 
-    private fun setUpInfoWindow(bool1: Boolean) {
+    private fun setUpInfoWindow(bool1: Boolean,position: LatLng) {
 
         val bInfoWindow: ViewBinding?
 
         if(bool1){
             bInfoWindow = InfoWindowBinding.inflate(layoutInflater)
             infoWindow = bInfoWindow.root
+            mMap!!.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    position,
+                    20f
+                )
+            )
         }else{
             bInfoWindow = InfoWindowLoadingBinding.inflate(layoutInflater)
             infoWindow = bInfoWindow.root
@@ -213,11 +219,16 @@ class CustomInfoWindowScreen : AppCompatActivity() {
 
                     bInfoWindow.tv1.text = strExtra
 
-
-
                     bInfoWindow.ivMore.setOnClickListener{
                         showToast("more", this@CustomInfoWindowScreen)
                     }
+
+                    mMap!!.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            position,
+                            18f
+                        )
+                    )
 
 
                 }
